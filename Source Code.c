@@ -1,21 +1,33 @@
-int pin = 13;
+int blue_pin = 13;
+int blue_pin = 13;
+
 volatile int state = LOW;
 
 void setup()
 {
   pinMode(pin, OUTPUT);
-  attachInterrupt(0, blink, RISING);		//Starts INT0, calls the function blink on a rising edge
+  attachInterrupt(0, red_team, RISING);			//Starts INT0, calls the function red_team on a rising edge
+  attachInterrupt(1, blue_team, RISING);		//Starts INT1, calls the function blue_team on a rising edge
 }
 
 void loop()
 {
-  digitalWrite(pin, LOW);
+  digitalWrite(blue_pin, LOW);
+  digitalWrite(red_pin, LOW);
 }
 
-void blink()								//Interrupt service routine
+void red_team()								//Interrupt service routine
 {
-	while (digitalRead(2))
+	while (1)
 	{
-		digitalWrite(pin, HIGH);
+		digitalWrite(red_pin, HIGH);
+	}
+}
+
+void blue_team()								//Interrupt service routine
+{
+	while (1)
+	{
+		digitalWrite(blue_pin, HIGH);
 	}
 }
