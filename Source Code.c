@@ -1,13 +1,14 @@
-int blue_pin = 13;
-int blue_pin = 13;
+int blue_LEDpin = 13;
+int red_LEDpin = 12;
 
 volatile int state = LOW;
 
 void setup()
 {
-  pinMode(pin, OUTPUT);
-  attachInterrupt(0, red_team, RISING);			//Starts INT0, calls the function red_team on a rising edge
-  attachInterrupt(1, blue_team, RISING);		//Starts INT1, calls the function blue_team on a rising edge
+pinMode(blue_LEDpin, OUTPUT);
+pinMode(red_LEDpin, OUTPUT);
+attachInterrupt(0, red_team, RISING);			//Starts INT0, calls the function red_team on a rising edge (Pin 2)
+attachInterrupt(1, blue_team, RISING);		//Starts INT1, calls the function blue_team on a rising edge (Pin 3)
 }
 
 void loop()
