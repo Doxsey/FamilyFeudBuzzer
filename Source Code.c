@@ -5,17 +5,34 @@ const unsigned char sample[] PROGMEM = {
 
 
 
-int blue_LEDpin = 13;
-int red_LEDpin = 12;
-
+int blue_LEDpin = 10;
+int red_LEDpin = 9;
+int Blue_ButtonLED = 0;
+int Red_ButtonLED = 1;
 
 void setup()
 {
-
 pinMode(blue_LEDpin, OUTPUT);
 pinMode(red_LEDpin, OUTPUT);
+pinMode(Blue_ButtonLED, OUTPUT);
+pinMode(Red_ButtonLED, OUTPUT);
+
+//Begin Test Init
+digitalWrite(Blue_ButtonLED, HIGH);
+digitalWrite(Red_ButtonLED, HIGH);
+delay(250);
+digitalWrite(Blue_ButtonLED, LOW);
+digitalWrite(Red_ButtonLED, LOW);
+digitalWrite(red_LEDpin, HIGH);
+digitalWrite(blue_LEDpin, HIGH);
+delay(250);
+digitalWrite(blue_LEDpin, LOW);
+digitalWrite(red_LEDpin, LOW);
+
 attachInterrupt(0, red_team, RISING);			//Starts INT0, calls the function red_team on a rising edge (Pin 2)
 attachInterrupt(1, blue_team, RISING);		//Starts INT1, calls the function blue_team on a rising edge (Pin 3)
+
+
 }
 
 void loop()
@@ -26,8 +43,7 @@ void loop()
 
 void red_team()								//Interrupt service routine
 {
-detachInterrupt(1);
-detachInterrupt(0);	
+noInterrupts();
 	startPlayback(sample, sizeof(sample));
 	while (1)
 	{
@@ -37,8 +53,8 @@ detachInterrupt(0);
 
 void blue_team()								//Interrupt service routine
 {
-detachInterrupt(0);
-detachInterrupt(1);
+noInterrupts();
+//interrupts();
 	startPlayback(sample, sizeof(sample));
 	while (1)
 	{
