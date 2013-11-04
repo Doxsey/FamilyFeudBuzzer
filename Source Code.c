@@ -25,12 +25,11 @@ pinMode(Red_ButtonLED, OUTPUT);
 //Begin Test Init
 digitalWrite(Blue_ButtonLED, HIGH);
 digitalWrite(Red_ButtonLED, HIGH);
-delay(100);
-digitalWrite(Blue_ButtonLED, LOW);
-digitalWrite(Red_ButtonLED, LOW);
 digitalWrite(red_LEDpin, HIGH);
 digitalWrite(blue_LEDpin, HIGH);
-delay(100);
+delay(1000);
+digitalWrite(Blue_ButtonLED, LOW);
+digitalWrite(Red_ButtonLED, LOW);
 digitalWrite(blue_LEDpin, LOW);
 digitalWrite(red_LEDpin, LOW);
 
@@ -46,10 +45,14 @@ void loop()
 	//If Blue team buzzes in first, Go to case 1
 	if (Blue_Push) {
 		CaseVal = 1;
+		Blue_Push = 0;
+		Red_Push = 0;
 		}
 	//If Red team buzzes in first, Go to case 2
 	else if (Red_Push) {				
 		CaseVal = 2;
+		Blue_Push = 0;
+		Red_Push = 0;
 		}
 	/* else {
 		CaseVal = 0;
@@ -65,8 +68,7 @@ void loop()
 			digitalWrite(Red_ButtonLED, LOW);
 			break;
 		case 1:										//Blue buzzes in first
-			Blue_Push = 0;
-			Red_Push = 0;
+			
 			digitalWrite(blue_LEDpin, HIGH);
 			digitalWrite(red_LEDpin, LOW);
 			digitalWrite(Blue_ButtonLED, HIGH);
@@ -75,10 +77,11 @@ void loop()
 			CaseVal = 5;
 			attachInterrupt(0, red_team, RISING);
 			attachInterrupt(1, blue_team, RISING);
+			
+			
 			break;
 		case 2:										//Red buzzes in first
-			Blue_Push = 0;
-			Red_Push = 0;
+			
 			digitalWrite(blue_LEDpin, LOW);
 			digitalWrite(red_LEDpin, HIGH);
 			digitalWrite(Blue_ButtonLED, LOW);
@@ -87,6 +90,7 @@ void loop()
 			CaseVal = 5;
 			attachInterrupt(0, red_team, RISING);
 			attachInterrupt(1, blue_team, RISING);
+			
 			break;
 		case 5:										//Buzzers activated
 			digitalWrite(Blue_ButtonLED, HIGH);
@@ -102,8 +106,9 @@ void loop()
 
 void red_team()										//Interrupt service routine
 {
-	detachInterrupt(0);								//Disables interrupts
-	detachInterrupt(1);
+	
+	attachInterrupt(0, ISR_null, RISING);
+	attachInterrupt(1, ISR_null, RISING);
 	startPlayback(sample, sizeof(sample));			//Plays ringer
 	Red_Push = 1;									//Signifies Red team pressed first (for case statement loop)
 	Blue_Push = 0;
@@ -111,9 +116,15 @@ void red_team()										//Interrupt service routine
 
 void blue_team()									//Interrupt service routine
 {
-	detachInterrupt(0);								//Disables interrupts
-	detachInterrupt(1);
+	attachInterrupt(0, ISR_null, RISING);
+	attachInterrupt(1, ISR_null, RISING);
+	
 	startPlayback(sample, sizeof(sample));			//Plays ringer
 	Blue_Push = 1;									//Signifies Blue team pressed first (for case statement loop)
 	Red_Push = 0;
+}
+
+void ISR_null()
+{
+
 }
