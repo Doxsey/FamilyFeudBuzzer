@@ -9,11 +9,11 @@ Blue Team interrupt is Pin 3
 Red Team interrupt is Pin 2
 
 */
-int blue_LEDpin = 9;
-int red_LEDpin = 8;
-int Blue_ButtonLED = 7;
-int Red_ButtonLED = 6;
-int Buzzer_En = 4;
+int blue_LEDpin = A5;
+int red_LEDpin = A4;
+int Blue_ButtonLED = A3;
+int Red_ButtonLED = A2;
+int Buzzer_En = 0;
 
 int Red_Push = 0;								//When red chimes in (first)
 int Blue_Push = 0;								//When blue chimes in (first)
