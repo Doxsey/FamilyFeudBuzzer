@@ -56,11 +56,8 @@ digitalWrite(red_LEDpin, LOW);
 
 MsTimer2::set(500, Buzz); // 500ms period
 
-//detachInterrupt(0, red_team, RISING);
-//detachInterrupt(1, blue_team, RISING);
-//detachInterrupt(0, ISR_null, RISING);
-//detachInterrupt(1, ISR_null, RISING);
-//CaseVal = 5;	//For testing, case 5 is waiting for buzz
+attachInterrupt(0, ISR_null, RISING);
+attachInterrupt(1, ISR_null, RISING);
 
 }
 
